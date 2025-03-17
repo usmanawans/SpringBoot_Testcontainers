@@ -2,6 +2,7 @@ package no.norbay.testcontainers.service;
 
 import no.norbay.testcontainers.exception.NotFoundRestException;
 import no.norbay.testcontainers.model.BrregResponse;
+import no.norbay.testcontainers.model.Organization;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
@@ -25,13 +26,22 @@ public class BrregRestClient {
                 .build();
     }
 
-    public BrregResponse hentOrganisasjon(String organisasjonsnummer) {
+    public BrregResponse hentOrgFraBrreg(String organisasjonsnummer) {
         return restClient.get()
-                .uri(organisasjonsnummer)
+                .uri(baseUrl + organisasjonsnummer)
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError, (request, response) -> {
                     throw new NotFoundRestException("Organisasjonsnummer: "+organisasjonsnummer+" finnes ikke i enhetsregisteret. ");
                 })
                 .body(BrregResponse.class);
+    }
+
+    public Organization getOrganisasjon(String organisasjonsnummer) {
+        BrregResponse response = hentOrgFraBrreg(organisasjonsnummer);
+        return Organization.builder()
+                .companyNumber(response.getOrganisasjonsnummer())
+                .taxNumber("NO"+response.getOrganisasjonsnummer()+"MVA")
+                .name(response.getNavn())
+                .build();
     }
 }
