@@ -5,10 +5,10 @@ import no.norbay.testcontainers.model.BrregResponse;
 import no.norbay.testcontainers.model.Organization;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatusCode;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
-@Service
+@Component
 public class BrregRestClient {
 
     @Value("${brreg.no.enhetsregisteret.url}")
