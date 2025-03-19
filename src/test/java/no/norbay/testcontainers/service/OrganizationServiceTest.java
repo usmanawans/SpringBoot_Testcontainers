@@ -31,7 +31,7 @@ class OrganizationServiceTest {
     }
 
     @Test
-    @DisplayName("Test for at parsing av organisasjon riktig")
+    @DisplayName("Parsing av riktig organisasjon er vellykket")
     void parseOrganisasjonRiktig() {
         when(brregRestClient.hentOrgFraBrreg(anyString())).thenReturn(new BrregResponse("111", "Norbay"));
 
@@ -41,7 +41,7 @@ class OrganizationServiceTest {
     }
 
     @Test
-    @DisplayName("Test for at parsing av feil organisasjon feiler")
+    @DisplayName("Parsing av feil organisasjon feiler")
     void parseFeilOrganisasjonGirFeil() {
         when(brregRestClient.hentOrgFraBrreg(anyString())).thenThrow(new NotFoundRestException());
 
